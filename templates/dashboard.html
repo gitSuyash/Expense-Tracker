@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Expense Tracker</title>
+</head>
+<body>
+	<form action='logout' method='POST'>
+		<button>Logout</button>
+	</form>
+	{% with messages = get_flashed_messages(category_filter=["flash"]) %}
+  {% if messages %}
+   <div>
+    {% for message in messages %}
+    <p >{{ message }} </p>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+	<br><br><br>
+	<form action='/income' method ='POST'>
+		{{income_form.income_src.label}}
+		{{income_form.income_src}}
+		{{income_form.income_amt.label}}
+		{{income_form.income_amt}}
+		{{income_form.submit}}
+	</form>
+
+<form action='/expense' method ='POST'>
+		{{expense_form.expense_src.label}}
+		{{expense_form.expense_src}}
+		{{expense_form.expense_amt.label}}
+		{{expense_form.expense_amt}}
+		{{expense_form.submit}}
+	</form>
+{% with messages = get_flashed_messages(category_filter=["msg"]) %}
+  {% if messages %}
+   <div>
+    {% for message in messages %}
+    <p >{{ message }} </p>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+<table>
+	{% if data is not none%}
+	<tr><th>Source</th><th>Amount</th><th>Type</th></tr>
+
+		{% for each in data%}
+		<tr><td>{{each[1]}}</td><td>{{each[2]}}</td><td>{{each[3]}}</td></tr>
+		{% endfor %}
+	
+</table>
+{{message}}
+{%endif%}
+{% if data is none%}
+
+<b>No entries found</b>
+
+
+{%endif%}
+
+</body>
+</html>

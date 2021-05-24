@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Expense Tracker</title>
+</head>
+<body>
+	<form action='/registered' method='POST'>
+		{{regform.name.label}}
+	{{regform.name}}
+	{{regform.email.label}}
+	{{regform.email}}
+	{{regform.phone.label}}
+	{{regform.phone}}
+	{{regform.password.label}}
+	{{regform.password}}
+	{{regform.submit}}
+	</form>
+<form action='/login' method="POST">
+	{{loginform.email.label}}
+	{{loginform.email}}
+	{{loginform.password.label}}
+	{{loginform.password}}
+	{{loginform.submit}}
+</form>
+
+{% with messages = get_flashed_messages(category_filter=["message"]) %}
+
+  {% if messages %}
+    {% for message in messages %}
+    <p >{{ message }} </p>
+    {% endfor %}
+  {% endif %}
+
+{% endwith %}
+
+</body>
+</html>
