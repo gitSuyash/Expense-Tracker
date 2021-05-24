@@ -12,17 +12,8 @@ app.config['SECRET_KEY']='xyz'
 
 @app.route('/',methods=['GET','POST'])
 def home():
-	if session.get('loggedin') is None:
-		loginform = LoginForm(request.form)
-		regform = RegistrationForm(request.form)
-		return render_template('forms.html',loginform=loginform,regform=regform)
-	else:
-		flash('already logged in','flash')
-		return redirect(url_for('dashboard'))
-
-@app.route('/registered',methods=['POST'])
-def register():
-	print(session)
+	loginform = LoginForm(request.form)
+	regform = RegistrationForm(request.form)
 	if session.get('loggedin') is None:
 		if request.method=='POST' :
 			details = request.form.to_dict()
@@ -31,6 +22,9 @@ def register():
 			email = details['email']
 			phone = details['phone']
 			pwd = details['password']
+			if len(pwd)<8:
+				flash('Password Should Have Minimum 8 characters','message')
+				return redirect(url_for('home'))
 			hashed_pwd = pbkdf2_sha256.hash(pwd)
 
 			mydb = mysql.connector.connect(host='localhost',user='root',password='techlearn@123',database='tracker_db')
@@ -47,9 +41,12 @@ def register():
 				mycursor.close()
 				flash('Registered Successfully','message')
 				return redirect(url_for('home'))
+		
+		return render_template('forms.html',loginform=loginform,regform=regform)
 	else:
-		flash('already logged in','flash')
 		return redirect(url_for('dashboard'))
+
+
 	
 @app.route('/login',methods=['POST'])
 def login():
