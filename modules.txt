@@ -1,0 +1,7 @@
+List of Modules & Libraries required for the project:
+
+1. wtforms
+2. Flask
+3. mysql.connector
+4. passlib
+5. flask_wtf
